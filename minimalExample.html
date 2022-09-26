@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Minimal Example missing vue</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.3/require.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@28.1.1/styles/ag-grid.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@28.1.1/styles/ag-theme-alpine.css">
+</head>
+<body>
+<div id="app">
+  <ag-grid-vue
+          style="width: 500px; height: 200px"
+          class="ag-theme-alpine"
+          :columnDefs="columnDefs"
+          :rowData="rowData"
+  >
+  </ag-grid-vue>
+</div>
+<script>
+  requirejs.config({
+    paths: {
+      "vue": "https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min",
+      "agGrid": "https://cdn.jsdelivr.net/npm/ag-grid-community@28.1.1/dist/ag-grid-community.amd",
+      "agGridVue": "grid-packages/ag-grid-vue/dist/ag-grid-vue.umd"
+    }
+  });
+
+  require(["vue", "agGridVue"], (Vue, { AgGridVue }) => {
+    const app = new Vue({
+      components: {
+        AgGridVue,
+      },
+      el: "#app",
+      data() {
+        return {
+          columnDefs: null,
+          rowData: null,
+        };
+      },
+      beforeMount() {
+        console.log("load")
+        this.columnDefs = [
+          { field: "make" },
+          { field: "model" },
+          { field: "price" },
+        ];
+
+        this.rowData = [
+          { make: "Toyota", model: "Celica", price: 35000 },
+          { make: "Ford", model: "Mondeo", price: 32000 },
+          { make: "Porsche", model: "Boxster", price: 72000 },
+        ];
+      },
+    });
+  });
+</script>
+</body>
+</html>
